@@ -2,9 +2,19 @@ const express = require("express");
 const app = express();
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
 
 const productRoutes = require("./api/routes/products");
 const orderRoutes = require("./api/routes/orders");
+
+mongoose.connect(
+  "mongodb://munem:"+
+  process.env.MONGO_ATLAS_PW + 
+  "@munem-api-01-shard-00-00-eaznh.mongodb.net:27017,munem-api-01-shard-00-01-eaznh.mongodb.net:27017,munem-api-01-shard-00-02-eaznh.mongodb.net:27017/test?ssl=true&replicaSet=Munem-API-01-shard-0&authSource=admin&retryWrites=true",
+  {
+    useMongoClient: true
+  }
+);
 
 app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -16,9 +26,9 @@ app.use((req, res, next) => {
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept, Authorization"
   );
-  if (req.method === 'OPTIONS') {
-      res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
-      return res.status(200).json({});
+  if (req.method === "OPTIONS") {
+    res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
+    return res.status(200).json({});
   }
   next();
 });
