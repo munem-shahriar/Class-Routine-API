@@ -55,7 +55,7 @@ app.use((error, req, res, next) => {
 module.exports = app;
 
 /*
-write node server.js to run the server
+ write node server.js to run the server
 ctrl + c for closing it.
 restart server after every new code added
 
